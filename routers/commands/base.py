@@ -15,4 +15,3 @@ async def start(message : Message):
     else:
         database.add_user(message.from_user.id)
         await message.answer(text="Hi. I'm magic english bot")
-
