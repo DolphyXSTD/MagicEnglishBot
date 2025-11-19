@@ -17,7 +17,7 @@ db_edit_list = {'Добавить текст' : (Admin.add_text,'Введите 
 @router.message(F.text == 'Сделать пост', lambda msg : msg.from_user.id == int(admin_id), default_state)
 async def send_button_handler(message : Message, state : FSMContext):
     await state.set_state(Admin.send_post)
-    await message.answer('Следующее сообщение будет разослано всем пользователям')
+    await message.answer('Следующее сообщение будет разослано всем пользователям', reply_markup=types.ReplyKeyboardRemove())
 
 @router.message(Admin.send_post)
 async def send_post(message : Message, state : FSMContext):

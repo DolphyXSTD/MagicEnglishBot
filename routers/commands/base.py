@@ -13,7 +13,8 @@ async def get_id(message:Message):
     await message.answer(str(message.from_user.id))
 
 @router.message(Command('start'))
-async def start(message : Message):
+async def start(message : Message, state :FSMContext):
+    await state.clear()
     if message.from_user.id == int(admin_id):
         await message.answer(text='Hello admin', reply_markup=admin_keyboard)
     else:
