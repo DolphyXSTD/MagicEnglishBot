@@ -11,7 +11,7 @@ dp.include_router(main_router)
 bot = Bot(token=token)
 
 async def main():
-    database.create_table()
+    database.create_tables()
     logging.basicConfig(level=logging.INFO)
     await dp.start_polling(bot)
 
