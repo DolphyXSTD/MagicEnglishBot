@@ -71,6 +71,18 @@ def get_level(user_id, db=db_name):
     conn.close()
     return result[0] if result else None
 
+def get_users_full(db=db_name):
+    conn = sqlite3.connect(db)
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT english_level, user_id
+        FROM users
+        ORDER BY english_level, user_id
+    """)
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
 def add_text(english_level, content, db=db_name):
     conn = sqlite3.connect(db)
     cur = conn.cursor()
@@ -106,9 +118,10 @@ def get_text(english_level, n, db=db_name):
         WHERE english_level = ?
         ORDER BY text_id
         LIMIT 1 OFFSET ?
-    """, (english_level, n-1))
+    """, (english_level, n))
+    text = cur.fetchone()
     conn.close()
-    return cur.fetchone()
+    return text
 
 def get_word(english_level, n, db=db_name):
     conn = sqlite3.connect(db)
@@ -120,5 +133,21 @@ def get_word(english_level, n, db=db_name):
         ORDER BY word_id
         LIMIT 1 OFFSET ?
     """, (english_level, n))
+    word = cur.fetchone()
     conn.close()
-    return cur.fetchone()
+    return word
+
+def get_level_stats(english_level, db=db_name):
+    conn = sqlite3.connect(db)
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT num_texts, num_words
+        FROM level_stats
+        WHERE english_level = ?
+    """, (english_level,))
+    row = cur.fetchone()
+    conn.close()
+    if row:
+        return {"num_texts": row[0], "num_words": row[1]}
+    else:
+        return {"num_texts": 0, "num_words": 0}
