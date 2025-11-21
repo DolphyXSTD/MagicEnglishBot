@@ -40,13 +40,13 @@ async def send_daily_texts(bot):
 
 async def send_daily_words(bot):
     users = get_users_full()
-    i = (date.today() - date(1970, 1, 1)).days
+    n = (date.today() - date(1970, 1, 1)).days
     q = []
     current_level = 'A1'
     amount = get_level_stats(current_level)
     if amount["num_words"]:
         for i in range(min(amount["num_words"], 5)):
-            q.append(get_word(current_level, i % amount["num_words"]))
+            q.append(get_word(current_level, n % amount["num_words"]))
     if len(q) > 0:
         text = f'CЛОВА ДНЯ |  Уровень {current_level}'
         for el in q:
@@ -61,7 +61,7 @@ async def send_daily_words(bot):
             q.clear()
             if amount["num_words"]:
                 for i in range(min(amount["num_words"], 5)):
-                    q.append(get_word(current_level, i % amount["num_words"]))
+                    q.append(get_word(current_level, n % amount["num_words"]))
             if len(q) > 0:
                 text = f'CЛОВА ДНЯ |  Уровень {current_level}'
                 for el in q:
