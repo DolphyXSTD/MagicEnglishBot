@@ -32,3 +32,4 @@ async def cancel(message : Message, state : FSMContext):
         if state is not None:
             await message.answer(text='Действие отменено', reply_markup=types.ReplyKeyboardRemove())
     await state.clear()
+
